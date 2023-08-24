@@ -1,6 +1,5 @@
 # JavaSec
-
---------------
+*** 
 Java Security Coding Memory by Boogpop
 - Templates
 - Pocs
