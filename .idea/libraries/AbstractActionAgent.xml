@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="AbstractActionAgent">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/AbstractActionAgent.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

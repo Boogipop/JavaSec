@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: Lenovo
+Build-Jdk: 1.8.0_181
+Agent-Class: AgentMain
+Can-Redefine-Classes: true
+Can-Retransform-Classes: true
+Premain-Class: AgentMain
+Project-name: AgentMain
+Project-version: 1.0-SNAPSHOT
+
