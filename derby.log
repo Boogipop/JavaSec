@@ -1,0 +1,85 @@
+----------------------------------------------------------------
+Tue Sep 05 14:41:29 CST 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.10.1.1 - (1458268): instance a816c00e-018a-6412-f000-00001aec17f8 
+on database directory E:\CTFLearning\Java\JavaSec\dbname with class loader sun.misc.Launcher$AppClassLoader@14dad5dc 
+Loaded from file:/E:/CTFLearning/Java/apache-maven-3.8.6-bin/apache-maven-3.8.6/maven-repo/org/apache/derby/derby/10.10.1.1/derby-10.10.1.1.jar
+java.vendor=Oracle Corporation
+java.runtime.version=1.8.0_65-b17
+user.dir=E:\CTFLearning\Java\JavaSec
+os.name=Windows 10
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----  Begin replication error message (23-9-5 下午2:42) ----
+Replication slave got a fatal error for database 'dbname'. Replication will be stopped.
+ERROR XRE04: Connection lost for replicated database 'null'.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.sendMessageWaitForReply(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.brokerConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.initConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.master.MasterController.setupConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.master.MasterController.startMaster(Unknown Source)
+	at org.apache.derby.impl.store.raw.RawStore.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.store.access.RAMAccessManager.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.db.BasicDatabase.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleStartReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:270)
+	at com.javasec.jdbc.Derby.demo.main(demo.java:9)
+
+--------------------  End replication error message ---------------------
+Tue Sep 05 14:42:12 CST 2023 Thread[main,5,main] (XID = 19), (SESSIONID = 1), (DATABASE = dbname), (DRDAID = null), Cleanup action starting
+java.sql.SQLException: Connection lost for replicated database 'null'.
+	at org.apache.derby.impl.jdbc.EmbedSQLException.wrapStandardException(Unknown Source)
+	at org.apache.derby.iapi.error.PublicAPI.wrapStandardException(Unknown Source)
+	at org.apache.derby.impl.db.BasicDatabase.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleStartReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:270)
+	at com.javasec.jdbc.Derby.demo.main(demo.java:9)
+Caused by: ERROR XRE04: Connection lost for replicated database 'null'.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.sendMessageWaitForReply(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.brokerConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.initConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.master.MasterController.setupConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.master.MasterController.startMaster(Unknown Source)
+	at org.apache.derby.impl.store.raw.RawStore.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.store.access.RAMAccessManager.startReplicationMaster(Unknown Source)
+	... 11 more
+============= begin nested exception, level (1) ===========
+ERROR XRE04: Connection lost for replicated database 'null'.
+	at org.apache.derby.iapi.error.StandardException.newException(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.sendMessageWaitForReply(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.brokerConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.net.ReplicationMessageTransmit.initConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.master.MasterController.setupConnection(Unknown Source)
+	at org.apache.derby.impl.store.replication.master.MasterController.startMaster(Unknown Source)
+	at org.apache.derby.impl.store.raw.RawStore.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.store.access.RAMAccessManager.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.db.BasicDatabase.startReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.handleStartReplicationMaster(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection.<init>(Unknown Source)
+	at org.apache.derby.impl.jdbc.EmbedConnection40.<init>(Unknown Source)
+	at org.apache.derby.jdbc.Driver40.getNewEmbedConnection(Unknown Source)
+	at org.apache.derby.jdbc.InternalDriver.connect(Unknown Source)
+	at org.apache.derby.jdbc.Driver20.connect(Unknown Source)
+	at org.apache.derby.jdbc.AutoloadedDriver.connect(Unknown Source)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:270)
+	at com.javasec.jdbc.Derby.demo.main(demo.java:9)
+============= end nested exception, level (1) ===========
+Cleanup action completed

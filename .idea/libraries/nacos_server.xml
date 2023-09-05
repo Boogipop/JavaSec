@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="nacos-server">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../CTF个人出题记录/WMCTF2023/NacosMaster/nacos/target/nacos-server.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

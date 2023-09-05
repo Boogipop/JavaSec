@@ -9,6 +9,9 @@ import javax.naming.directory.DirContext;
 import java.lang.reflect.Constructor;
 import java.util.Hashtable;
 
+/**
+ * 基本同EL
+ */
 public class HessianJackResinChain {
     public static void main(String[] args) throws Exception {
         //URLCLASSLOADER RCE

@@ -1,19 +1,22 @@
 package com.javasec;
 
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.javasec.utils.SerializeUtils;
 import org.junit.Test;
 
+import javax.naming.CannotProceedException;
+import javax.naming.Reference;
+import javax.naming.directory.DirContext;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Hashtable;
 
 public class Demo {
     @Test
-    public void test() throws IOException {
-        InputStream inputStream = new URL("file:///E:\\1.txt").openConnection().getInputStream();
-        for(int a=1;a<10;a++){
-            int read = inputStream.read();
-            System.out.println(read);
-        }
+    public void test() throws Exception {
+
     }
 }

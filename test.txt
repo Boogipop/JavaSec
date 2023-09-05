@@ -1,0 +1,28 @@
+九月 05, 2023 1:48:59 下午 org.postgresql.Driver connect
+详细: Connecting with URL: jdbc:postgresql://127.0.0.1:5432/test?loggerLevel=debug&loggerFile=test.txt&test
+九月 05, 2023 1:48:59 下午 org.postgresql.jdbc.PgConnection <init>
+详细: PostgreSQL JDBC Driver 42.3.1
+九月 05, 2023 1:48:59 下午 org.postgresql.jdbc.PgConnection setDefaultFetchSize
+详细:   setDefaultFetchSize = 0
+九月 05, 2023 1:48:59 下午 org.postgresql.jdbc.PgConnection setPrepareThreshold
+详细:   setPrepareThreshold = 5
+九月 05, 2023 1:48:59 下午 org.postgresql.core.v3.ConnectionFactoryImpl openConnectionImpl
+详细: Trying to establish a protocol version 3 connection to 127.0.0.1:5432
+九月 05, 2023 1:48:59 下午 org.postgresql.core.v3.ConnectionFactoryImpl tryConnect
+详细: Receive Buffer Size is 65,536
+九月 05, 2023 1:48:59 下午 org.postgresql.core.v3.ConnectionFactoryImpl tryConnect
+详细: Send Buffer Size is 65,536
+九月 05, 2023 1:48:59 下午 org.postgresql.Driver connect
+详细: Connection error: 
+org.postgresql.util.PSQLException: The server requested SCRAM-based authentication, but no password was provided.
+	at org.postgresql.core.v3.ConnectionFactoryImpl.doAuthentication(ConnectionFactoryImpl.java:770)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.tryConnect(ConnectionFactoryImpl.java:163)
+	at org.postgresql.core.v3.ConnectionFactoryImpl.openConnectionImpl(ConnectionFactoryImpl.java:215)
+	at org.postgresql.core.ConnectionFactory.openConnection(ConnectionFactory.java:51)
+	at org.postgresql.jdbc.PgConnection.<init>(PgConnection.java:225)
+	at org.postgresql.Driver.makeConnection(Driver.java:466)
+	at org.postgresql.Driver.connect(Driver.java:265)
+	at java.sql.DriverManager.getConnection(DriverManager.java:664)
+	at java.sql.DriverManager.getConnection(DriverManager.java:270)
+	at com.javasec.jdbc.postgres.PsqlJDBCRCE.main(PsqlJDBCRCE.java:18)
+

