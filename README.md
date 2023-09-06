@@ -9,6 +9,10 @@ Java Security Coding Memory by Boogpop
 
 
 
+## 0、aspectjweaver
+任意文件写入
+
+
 ## 1、Hessian
 
 内涵Hessian反序列化所有利用链
