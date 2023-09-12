@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="lib">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../WeblogicEnvironment-master/weblogic_cmd-master/weblogic_cmd-master/lib" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../../WeblogicEnvironment-master/weblogic_cmd-master/weblogic_cmd-master/lib" />
+    </SOURCES>
+    <jarDirectory url="file://$PROJECT_DIR$/../../WeblogicEnvironment-master/weblogic_cmd-master/weblogic_cmd-master/lib" recursive="false" />
+    <jarDirectory url="file://$PROJECT_DIR$/../../WeblogicEnvironment-master/weblogic_cmd-master/weblogic_cmd-master/lib" recursive="false" type="SOURCES" />
+  </library>
+</component>
