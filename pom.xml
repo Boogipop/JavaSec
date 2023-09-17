@@ -27,7 +27,14 @@
   </properties>
 
   <dependencies>
-      <dependency>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-server -->
+    <dependency>
+      <groupId>org.eclipse.jetty</groupId>
+      <artifactId>jetty-server</artifactId>
+      <version>9.4.30.v20200611</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
         <groupId>com.caucho</groupId>
         <artifactId>resin</artifactId>
         <version>4.0.64</version>
